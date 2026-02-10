@@ -80,10 +80,10 @@ func _enter_tree() -> void:
                 "res://droplet.gd",
                 "res://ball.gd",
             ]
-            #EditorInterface.get_editor_main_screen().get_node("ModToolsPanel").context_actions\
-                #.handle_mod_hook_creation({
-                    #mod_tool_hook_script_paths=to_hook
-                #})
+            EditorInterface.get_editor_main_screen().get_node("ModToolsPanel").context_actions\
+                .handle_mod_hook_creation({
+                    mod_tool_hook_script_paths=to_hook
+                })
                 
             print("Multrapool Bridge: Project is set up! Please reload your project (Project > Reload Current Project)")
             

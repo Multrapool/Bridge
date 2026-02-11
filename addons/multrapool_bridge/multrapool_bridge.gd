@@ -85,9 +85,14 @@ func _enter_tree() -> void:
                     mod_tool_hook_script_paths=to_hook
                 })
                 
+            # add autoloads
+            add_autoload_singleton("ModLoaderStore", "res://addons/mod_loader/mod_loader_store.gd")
+            add_autoload_singleton("ModLoader", "res://addons/mod_loader/mod_loader.gd")
+            ProjectSettings.set_order("autoload/ModLoaderStore", 0)
+            ProjectSettings.set_order("autoload/ModLoader", 1)
+                
             print("Multrapool Bridge: Project is set up! Please reload your project (Project > Reload Current Project)")
             
-            pass
         var in_progress = [3]
         
         # add mod_tool
@@ -117,3 +122,5 @@ func _enter_tree() -> void:
 
 func _exit_tree() -> void:
     remove_tool_menu_item("Multrapool Bridge: Init Environment")
+    remove_autoload_singleton("ModLoaderStore")
+    remove_autoload_singleton("ModLoader")

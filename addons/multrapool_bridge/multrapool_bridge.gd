@@ -80,10 +80,14 @@ func _enter_tree() -> void:
                 "res://droplet.gd",
                 "res://ball.gd",
             ]
-            EditorInterface.get_editor_main_screen().get_node("ModToolsPanel").context_actions\
-                .handle_mod_hook_creation({
-                    mod_tool_hook_script_paths=to_hook
-                })
+            var godot_version = Engine.get_version_info()
+            if godot_version.major == 4 and godot_version.minor == 6:
+                pass
+            else:
+                EditorInterface.get_editor_main_screen().get_node("ModToolsPanel").context_actions\
+                    .handle_mod_hook_creation({
+                        mod_tool_hook_script_paths=to_hook
+                    })
                 
             # add autoloads
             add_autoload_singleton("ModLoaderStore", "res://addons/mod_loader/mod_loader_store.gd")

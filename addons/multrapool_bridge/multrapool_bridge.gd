@@ -110,7 +110,7 @@ func _enter_tree() -> void:
             if in_progress[0] == 0: after_download.call()
             pass)
         # add cue
-        download("https://github.com/Multrapool/Cue/releases/download/0.4.1/Multrapool-Cue.zip", "cue.zip",
+        download("https://github.com/Multrapool/Cue/releases/download/0.4.2/Multrapool-Cue.zip", "cue.zip",
             func(file_name):
             extract_addon(file_name, "res://mods-unpacked/Multrapool-Cue", "mods-unpacked/Multrapool-Cue")
             in_progress[0]-=1

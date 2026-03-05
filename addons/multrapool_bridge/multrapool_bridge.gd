@@ -72,10 +72,16 @@ func _enter_tree() -> void:
                         .get_as_text().to_utf8_buffer())
                 file.flush()
                 
+            # add autoloads
+            add_autoload_singleton("ModLoaderStore", "res://addons/mod_loader/mod_loader_store.gd")
+            add_autoload_singleton("ModLoader", "res://addons/mod_loader/mod_loader.gd")
+            ProjectSettings.set_order("autoload/ModLoaderStore", 0)
+            ProjectSettings.set_order("autoload/ModLoader", 1)
+                
             # hook hooks
-            preload("res://addons/mod_tool/interface/file_system/file_system_context_actions.gd")\
+            load("res://addons/mod_tool/interface/file_system/file_system_context_actions.gd")\
                 .new(get_tree().root.get_node("ModToolStore"))\
-                .handle_mod_hook_creation([
+                .handle_mod_hook_creation(([
                     "res://utils/utils.gd",
                     "res://event_manager.gd",
                     "res://ui/shop.gd",
@@ -83,13 +89,7 @@ func _enter_tree() -> void:
                     "res://droplet.gd",
                     "res://ball.gd",
                     "res://singletons/save_manager.gd",
-                ])
-                
-            # add autoloads
-            add_autoload_singleton("ModLoaderStore", "res://addons/mod_loader/mod_loader_store.gd")
-            add_autoload_singleton("ModLoader", "res://addons/mod_loader/mod_loader.gd")
-            ProjectSettings.set_order("autoload/ModLoaderStore", 0)
-            ProjectSettings.set_order("autoload/ModLoader", 1)
+                ]) as Array[String])
                 
             print("Multrapool Bridge: Project is set up! Please reload your project (Project > Reload Current Project)")
             

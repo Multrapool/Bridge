@@ -61,33 +61,29 @@ func _enter_tree() -> void:
                 for sub_file in DirAccess.get_directories_at(to_traverse[0]):
                     to_traverse.append(to_traverse[0]+"/"+sub_file)
                 for sub_file in DirAccess.get_files_at(to_traverse[0]):
-                    if sub_file.ends_with(".uid"): continue
+                    if not sub_file.ends_with("_replacement"): continue
                     replacements.append(to_traverse[0].substr(len("res://addons/multrapool_bridge/replacements/"))\
                         +"/"+sub_file)
                 to_traverse.pop_front()
+                
             for replacement in replacements:
-                var file = FileAccess.open("res://addons/"+replacement, FileAccess.WRITE)
+                var file = FileAccess.open("res://addons/"+replacement.substr(0,len(replacement)-len("_replacement")), FileAccess.WRITE)
                 file.store_buffer(FileAccess.open("res://addons/multrapool_bridge/replacements/"+replacement, FileAccess.READ)\
                         .get_as_text().to_utf8_buffer())
                 file.flush()
                 
             # hook hooks
-            var to_hook:Array[String]=[
-                "res://utils/utils.gd",
-                "res://event_manager.gd",
-                "res://ui/shop.gd",
-                "res://Game.gd",
-                "res://droplet.gd",
-                "res://ball.gd",
-            ]
-            var godot_version = Engine.get_version_info()
-            if godot_version.major == 4 and godot_version.minor == 6:
-                pass
-            else:
-                EditorInterface.get_editor_main_screen().get_node("ModToolsPanel").context_actions\
-                    .handle_mod_hook_creation({
-                        mod_tool_hook_script_paths=to_hook
-                    })
+            preload("res://addons/mod_tool/interface/file_system/file_system_context_actions.gd")\
+                .new(get_tree().root.get_node("ModToolStore"))\
+                .handle_mod_hook_creation([
+                    "res://utils/utils.gd",
+                    "res://event_manager.gd",
+                    "res://ui/shop.gd",
+                    "res://Game.gd",
+                    "res://droplet.gd",
+                    "res://ball.gd",
+                    "res://singletons/save_manager.gd",
+                ])
                 
             # add autoloads
             add_autoload_singleton("ModLoaderStore", "res://addons/mod_loader/mod_loader_store.gd")
